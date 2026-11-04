@@ -27,6 +27,7 @@ abstract interface class TelegramGateway {
   Future<void> submitPassword(String password);
   Future<List<TelegramChat>> listChats({String? query});
   Future<void> setSelectedChats(Set<int> chatIds);
+  Future<TelegramChat> createPrivateMusicChannel(String title);
   Future<List<Track>> searchMusic(String query, {int limit = 100});
   Future<String> ensureDownloaded(Track track);
   Future<void> logout();
