@@ -99,7 +99,10 @@ class _FakeGateway implements TelegramGateway {
       throw UnimplementedError();
 
   @override
-  Future<void> initialize({required int apiId, required String apiHash}) async {}
+  Future<void> initialize({
+    required int apiId,
+    required String apiHash,
+  }) async {}
 
   @override
   Future<String> ensureDownloaded(Track track) => throw UnimplementedError();
