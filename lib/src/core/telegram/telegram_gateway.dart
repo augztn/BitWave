@@ -58,6 +58,8 @@ class TelegramGatewayUnavailable implements TelegramGateway {
   @override
   Future<void> setSelectedChats(Set<int> chatIds) async => _unavailable();
   @override
+  Future<TelegramChat> createPrivateMusicChannel(String title) async => _unavailable();
+  @override
   Future<List<Track>> searchMusic(String query, {int limit = 100}) async => _unavailable();
   @override
   Future<String> ensureDownloaded(Track track) async => _unavailable();
