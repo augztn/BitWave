@@ -68,7 +68,7 @@ class TelegramAuthService {
 
   Future<void> submitPhoneNumber(String phone) async {
     final normalized = phone.trim();
-    if (!RegExp(r'^\\+[1-9][0-9]{6,14}$').hasMatch(normalized)) {
+    if (!RegExp(r'^\+[1-9][0-9]{6,14}$').hasMatch(normalized)) {
       throw ArgumentError.value(
         phone,
         'phone',
@@ -79,7 +79,7 @@ class TelegramAuthService {
   }
 
   Future<void> submitCode(String code) async {
-    final normalized = code.replaceAll(RegExp(r'\\s+'), '');
+    final normalized = code.replaceAll(RegExp(r'\s+'), '');
     if (!RegExp(r'^[0-9]{4,8}$').hasMatch(normalized)) {
       throw ArgumentError.value(
         code,
