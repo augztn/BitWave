@@ -11,6 +11,7 @@ Native adapter methods:
 - `submitPassword({password: String})`
 - `listChats({query: String?}) -> List<Chat>`
 - `setSelectedChats({chatIds: List<int>})`
+- `createPrivateMusicChannel({title: String}) -> Chat`
 - `searchMusic({query: String, limit: int}) -> List<Track>`
 - `ensureDownloaded({chatId: int, messageId: int, remoteFileId: int?}) -> String localPath`
 - `logout()`
