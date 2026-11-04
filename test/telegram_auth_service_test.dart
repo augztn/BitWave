@@ -18,6 +18,26 @@ void main() {
     );
   });
 
+  test('stores normalized credentials and initializes the gateway', () async {
+    await service.connect(
+      const TelegramCredentials(apiId: 12345, apiHash: '  api-hash  '),
+    );
+
+    expect(credentials.saved?.apiId, 12345);
+    expect(credentials.saved?.apiHash, 'api-hash');
+    expect(gateway.initializedApiId, 12345);
+    expect(gateway.initializedApiHash, 'api-hash');
+  });
+
+  test('rejects invalid API credentials before saving', () async {
+    await expectLater(
+      service.connect(const TelegramCredentials(apiId: 0, apiHash: 'hash')),
+      throwsArgumentError,
+    );
+    expect(credentials.saved, isNull);
+    expect(gateway.initializedApiId, isNull);
+  });
+
   test('trims and submits a valid international phone number', () async {
     await service.submitPhoneNumber('  +919876543210  ');
     expect(gateway.phoneNumber, '+919876543210');
@@ -54,6 +74,7 @@ void main() {
 
 class _FakeCredentialsRepository implements TelegramCredentialsRepository {
   bool cleared = false;
+  TelegramCredentials? saved;
 
   @override
   Future<void> clear() async {
@@ -64,13 +85,17 @@ class _FakeCredentialsRepository implements TelegramCredentialsRepository {
   Future<TelegramCredentials?> read() async => null;
 
   @override
-  Future<void> save(TelegramCredentials credentials) async {}
+  Future<void> save(TelegramCredentials credentials) async {
+    saved = credentials;
+  }
 }
 
 class _FakeGateway implements TelegramGateway {
   String? phoneNumber;
   String? code;
   bool failLogout = false;
+  int? initializedApiId;
+  String? initializedApiHash;
 
   @override
   Stream<TelegramAuthSnapshot> get authorization =>
@@ -102,7 +127,10 @@ class _FakeGateway implements TelegramGateway {
   Future<void> initialize({
     required int apiId,
     required String apiHash,
-  }) async {}
+  }) async {
+    initializedApiId = apiId;
+    initializedApiHash = apiHash;
+  }
 
   @override
   Future<String> ensureDownloaded(Track track) => throw UnimplementedError();
