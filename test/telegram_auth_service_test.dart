@@ -56,7 +56,9 @@ class _FakeCredentialsRepository implements TelegramCredentialsRepository {
   bool cleared = false;
 
   @override
-  Future<void> clear() async {\n    cleared = true;\n  }
+  Future<void> clear() async {
+    cleared = true;
+  }
 
   @override
   Future<TelegramCredentials?> read() async => null;
@@ -75,10 +77,14 @@ class _FakeGateway implements TelegramGateway {
       const Stream<TelegramAuthSnapshot>.empty();
 
   @override
-  Future<void> submitPhoneNumber(String value) async {\n    phoneNumber = value;\n  }
+  Future<void> submitPhoneNumber(String value) async {
+    phoneNumber = value;
+  }
 
   @override
-  Future<void> submitCode(String value) async {\n    code = value;\n  }
+  Future<void> submitCode(String value) async {
+    code = value;
+  }
 
   @override
   Future<void> logout() async {
