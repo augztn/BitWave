@@ -43,10 +43,16 @@ void main() {
     expect(gateway.phoneNumber, '+919876543210');
   });
 
-  test('rejects invalid international phone numbers', () {
-    expect(service.submitPhoneNumber('9876543210'), throwsArgumentError);
-    expect(service.submitPhoneNumber('+0123456789'), throwsArgumentError);
-    expect(service.submitPhoneNumber('+123'), throwsArgumentError);
+  test('rejects invalid international phone numbers', () async {
+    await expectLater(
+      service.submitPhoneNumber('9876543210'),
+      throwsArgumentError,
+    );
+    await expectLater(
+      service.submitPhoneNumber('+0123456789'),
+      throwsArgumentError,
+    );
+    await expectLater(service.submitPhoneNumber('+123'), throwsArgumentError);
   });
 
   test('removes whitespace from a valid verification code', () async {
@@ -54,15 +60,18 @@ void main() {
     expect(gateway.code, '123456');
   });
 
-  test('rejects malformed verification codes', () {
-    expect(service.submitCode('12ab'), throwsArgumentError);
-    expect(service.submitCode('123'), throwsArgumentError);
-    expect(service.submitCode('123456789'), throwsArgumentError);
+  test('rejects malformed verification codes', () async {
+    await expectLater(service.submitCode('12ab'), throwsArgumentError);
+    await expectLater(service.submitCode('123'), throwsArgumentError);
+    await expectLater(service.submitCode('123456789'), throwsArgumentError);
   });
 
-  test('rejects empty and oversized two-step passwords', () {
-    expect(service.submitPassword(''), throwsArgumentError);
-    expect(service.submitPassword('x' * 257), throwsArgumentError);
+  test('rejects empty and oversized two-step passwords', () async {
+    await expectLater(service.submitPassword(''), throwsArgumentError);
+    await expectLater(
+      service.submitPassword('x' * 257),
+      throwsArgumentError,
+    );
   });
 
   test('clears saved credentials even if Telegram logout fails', () async {
