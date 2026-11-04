@@ -59,10 +59,21 @@ class TelegramAuthService {
   final TelegramCredentialsRepository _credentialsStore;
 
   Future<void> connect(TelegramCredentials credentials) async {
-    await _credentialsStore.save(credentials);
-    await _gateway.initialize(
+    final apiHash = credentials.apiHash.trim();
+    if (credentials.apiId <= 0 || apiHash.isEmpty) {
+      throw ArgumentError(
+        'A valid Telegram API ID and API hash are required.',
+      );
+    }
+
+    final normalized = TelegramCredentials(
       apiId: credentials.apiId,
-      apiHash: credentials.apiHash,
+      apiHash: apiHash,
+    );
+    await _credentialsStore.save(normalized);
+    await _gateway.initialize(
+      apiId: normalized.apiId,
+      apiHash: normalized.apiHash,
     );
   }
 
