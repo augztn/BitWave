@@ -1,0 +1,40 @@
+# Dart / Flutter
+.dart_tool/
+.packages
+.pub-cache/
+.pub/
+build/
+.flutter-plugins
+.flutter-plugins-dependencies
+.metadata
+
+# IDEs
+.idea/
+*.iml
+.vscode/
+
+# Android / Gradle
+.gradle/
+local.properties
+**/GeneratedPluginRegistrant.java
+android/key.properties
+*.jks
+*.keystore
+
+# Linux native build
+cmake-build-*/
+
+# Secrets and local application state
+.env
+.env.*
+!.env.example
+*.sqlite
+*.sqlite3
+*.db
+*.tdb
+*.session
+*.session-journal
+
+# OS
+.DS_Store
+Thumbs.db
