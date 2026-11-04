@@ -41,6 +41,12 @@ Playlists, favorites, album art, search filters, duplicate detection, backup/exp
 
 Build signing, Linux packaging, Android APK/AAB, CI artifacts, crash-safe shutdown, privacy/security review and documentation.
 
+## Current implementation status (2026-11-04)
+
+- M0 foundation: Flutter app shell, domain models, gateway contract, Dart-side TDLib channel boundary and CI workflow are present.
+- M1 in progress: secure credential storage and authentication validation are present; Android and Linux native TDLib adapters are not yet implemented or packaged.
+- Authentication validation tests have been added, but have not yet been executed in this environment. Do not treat the channel bridge as a working Telegram connection until native TDLib is integrated and device-tested.
+
 ## Explicit risks
 
 - TDLib native binaries and build flags must be pinned and verified for every target ABI. Avoid opaque, unverified binaries.
