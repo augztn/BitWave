@@ -108,6 +108,21 @@ class TdlibMethodChannelGateway implements TelegramGateway {
       _invoke<void>('setSelectedChats', {'chatIds': chatIds.toList()});
 
   @override
+  Future<TelegramChat> createPrivateMusicChannel(String title) async {
+    final value = await _invoke<Map<Object?, Object?>>(
+      'createPrivateMusicChannel',
+      {'title': title},
+    );
+    final item = Map<String, Object?>.from(value);
+    return TelegramChat(
+      id: item['id'] as int,
+      title: item['title'] as String? ?? title,
+      type: item['type'] as String? ?? 'channel',
+      username: item['username'] as String?,
+    );
+  }
+
+  @override
   Future<List<Track>> searchMusic(String query, {int limit = 100}) async {
     final values = await _invoke<List<Object?>>(
       'searchMusic',
