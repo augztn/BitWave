@@ -4,7 +4,10 @@ class TelegramSearchPolicy {
     this.maxSelectedChats = 100,
     this.maxResults = 200,
     this.maxConcurrentSearches = 3,
-  });
+  }) : assert(maxQueryLength > 0),
+       assert(maxSelectedChats > 0),
+       assert(maxResults > 0),
+       assert(maxConcurrentSearches > 0);
 
   final int maxQueryLength;
   final int maxSelectedChats;
@@ -16,7 +19,10 @@ class TelegramSearchPolicy {
     if (normalized.length > maxQueryLength) {
       throw ArgumentError.value(query, 'query', 'Search text is too long.');
     }
-    final chats = selectedChatIds.where((id) => id != 0).toSet().toList()..sort();
+    if (selectedChatIds.contains(0)) {
+      throw ArgumentError.value(selectedChatIds, 'selectedChatIds', 'Invalid chat identifier.');
+    }
+    final chats = selectedChatIds.toList()..sort();
     if (chats.length > maxSelectedChats) {
       throw ArgumentError.value(
         selectedChatIds,
@@ -24,11 +30,14 @@ class TelegramSearchPolicy {
         'Select at most $maxSelectedChats music chats.',
       );
     }
-    final safeLimit = (limit ?? maxResults).clamp(1, maxResults);
+    final requestedLimit = limit ?? maxResults;
+    if (requestedLimit < 1) {
+      throw ArgumentError.value(limit, 'limit', 'Result limit must be positive.');
+    }
     return SearchRequest(
       query: normalized,
       chatIds: List.unmodifiable(chats),
-      limit: safeLimit,
+      limit: requestedLimit.clamp(1, maxResults),
     );
   }
 }
